@@ -47,4 +47,13 @@ favoriteService.upsertFavorite = async function ({ idUser, songs }) {
     }
 }
 
+favoriteService.getFavorite = async function ({ userId }) {
+    try {
+        const favorite = await Favorite.find({ userId });
+        return favorite;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
 module.exports = favoriteService;

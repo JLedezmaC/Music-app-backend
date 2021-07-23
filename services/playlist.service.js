@@ -49,4 +49,15 @@ playlistService.updatePlaylist = async function (data) {
     }
 };
 
+playlistService.removePlaylist = async function (data) {
+    try {
+        const id = data.id;
+        const playlist = await Playlist.findByIdAndRemove(id);
+        const message = 'Playlist remove';
+        return message;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 module.exports = playlistService;
