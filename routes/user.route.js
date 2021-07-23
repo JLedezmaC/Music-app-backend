@@ -1,14 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/user.controller')
+const userController = require('../controllers/user.controller');
 
-router.post('/user',userController.create);
-//Aqui van los metodos de api como get post put delete
+router.post('/user', userController.create);
+router.get('/user', userController.getUsers);
+router.get('/user/:id', userController.getUser);
+router.put('/user/:id', userController.updateUser);
 
-router.get('/user',userController.login);
 
-// Aqui me va a traer los usuarios 
-
-router.get('/user',userController.getUser)
-
-module.exports = router
+module.exports = router;

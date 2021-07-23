@@ -1,5 +1,5 @@
 {
-  "name": "clase9_Trabajo",
+  "name": "music",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,8 +15,8 @@
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "express-validator": "^6.12.0",
-    "mongoose": "^5.13.2",
-    "nodemon": "^2.0.9"
+    "express-validator": "^6.12.1",
+    "mongoose": "^5.13.3",
+    "nodemon": "^2.0.12"
   }
 }
