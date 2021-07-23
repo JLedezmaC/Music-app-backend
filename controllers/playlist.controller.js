@@ -30,4 +30,13 @@ playlistController.update = async function (req, res, next) {
     }
 };
 
+playlistController.delete = async function (req, res, next) {
+    try {
+        const playlist = await playlistService.removePlaylist(req.body);
+        return res.status(201).json({ playlist });
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+};
+
 module.exports = playlistController;

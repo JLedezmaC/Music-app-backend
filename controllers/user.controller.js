@@ -61,5 +61,14 @@ userController.login = async function(req,res,next){
     }
 }
 
+userController.delete = async function (req, res, next) {
+    try {
+        const userToRemove = await userService.removeUser(req.body);
+        return res.status(201).json({ userToRemove });
+    } catch (error) {
+        throw new Error('Error while deleting user or user was deleted');
+    }
+};
+
 
 module.exports = userController;

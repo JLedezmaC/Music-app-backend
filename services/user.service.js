@@ -63,4 +63,16 @@ userService.LogUser = async function({email,password}){
     }
 }
 
+userService.removeUser = async function (data) {
+    try {
+        const Userid = data.id;
+        const userDeleted = await User.findByIdAndRemove(Userid);
+        const message = 'User removed';
+        return message;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+
 module.exports = userService;

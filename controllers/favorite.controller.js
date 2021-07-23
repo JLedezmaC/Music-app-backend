@@ -12,4 +12,14 @@ FavoriteController.upsert = async function (req, res, next) {
     }
 }
 
+FavoriteController.get = async function (req, res, next) {
+    try {
+        const userId = req.query.userId;
+        const favorite = await favoriteService.getFavorite({ userId });
+        return res.status(200).json({ data: favorite, message: 'Successfully favorite retrieved' });
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+};
+
 module.exports = FavoriteController;
