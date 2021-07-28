@@ -20,7 +20,7 @@ userService.getUsers = async function () {
         const users = await User.find({});
         return users;
 
-    } catch {
+    } catch(e) {
         console.log(e.message)
         throw new Error('Error while Paginating Users')
     }
@@ -32,7 +32,7 @@ userService.getUser = async function ({ id }) {
         let getUser = JSON.parse(JSON.stringify(user))
         delete getUser.password;
         return  getUser
-    } catch (error) {
+    } catch (e) {
         console.log(e.message)
         throw new Error('Error while returning user');
     }
@@ -44,7 +44,7 @@ userService.updateUser = async function ({ id }, { name, email, password }) {
         const updateUser = await user.set({ name, email, password });
         await updateUser.save();
         return updateUser;
-    } catch (error) {
+    } catch (e) {
         console.log(e.message)
         throw new Error('Error while update user')
     }
@@ -56,7 +56,7 @@ userService.updateUserName = async function ({ id }, { name }) {
         const updateNameUser = await userid.set({ name });
         await updateNameUser.save();
         return updateNameUser;
-    } catch (error) {
+    } catch (e) {
         console.log(e.message)
         throw new Error('Error while changing name of user')
     }
@@ -66,7 +66,7 @@ userService.LogUser = async function({email,password}){
     try{
         const logedUser = await User.findOne({email,password})
         return logedUser;
-    }catch(error){
+    }catch(e){
         console.log(e.message)
         throw new Error ('Error while getting User')
     }
@@ -78,7 +78,7 @@ userService.removeUser = async function (data) {
         const userDeleted = await User.findByIdAndRemove(Userid);
         const message = 'User removed';
         return message;
-    } catch (error) {
+    } catch (e) {
         console.log(e.message)
         throw new Error(error);
     }
