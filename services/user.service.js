@@ -9,6 +9,7 @@ userService.createUser = async function ({ name, email, password }) {
         return newUser;
 
     } catch (e) {
+        console.log(e.message)
         throw new Error('Error while save user')
     }
 }
@@ -19,6 +20,7 @@ userService.getUsers = async function () {
         return users;
 
     } catch {
+        console.log(e.message)
         throw new Error('Error while Paginating Users')
     }
 }
@@ -28,6 +30,7 @@ userService.getUser = async function ({ id }) {
         const user = await User.findById(id)
         return user;
     } catch (error) {
+        console.log(e.message)
         throw new Error('Error while returning user');
     }
 }
@@ -39,6 +42,7 @@ userService.updateUser = async function ({ id }, { name, email, password }) {
         await updateUser.save();
         return updateUser;
     } catch (error) {
+        console.log(e.message)
         throw new Error('Error while update user')
     }
 }
@@ -50,6 +54,7 @@ userService.updateUserName = async function ({ id }, { name }) {
         await updateNameUser.save();
         return updateNameUser;
     } catch (error) {
+        console.log(e.message)
         throw new Error('Error while changing name of user')
     }
 }
@@ -59,6 +64,7 @@ userService.LogUser = async function({email,password}){
         const logedUser = await User.findOne({email,password})
         return logedUser;
     }catch(error){
+        console.log(e.message)
         throw new Error ('Error while getting User')
     }
 }
@@ -70,6 +76,7 @@ userService.removeUser = async function (data) {
         const message = 'User removed';
         return message;
     } catch (error) {
+        console.log(e.message)
         throw new Error(error);
     }
 };
