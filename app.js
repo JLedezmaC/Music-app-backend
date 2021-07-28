@@ -27,7 +27,7 @@ app.use('/', favoriteRoute);
 app.use('/', recentRoute);
 app.use('/', playlistRoute);
 
-app.use('*', (res, req) => {
+app.use('*', (req, res) => {
     res.status(404)
     res.send('Path cannot found')
 })
