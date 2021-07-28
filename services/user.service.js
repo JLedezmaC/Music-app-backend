@@ -64,7 +64,7 @@ userService.updateUserName = async function ({ id }, { name }) {
 
 userService.LogUser = async function({email,password}){
     try{
-        const logedUser = await User.findOne({email,password})
+        const logedUser = await User.findOne({email,password:md5(password)})
         return logedUser;
     }catch(e){
         console.log(e.message)
