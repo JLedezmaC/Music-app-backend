@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.put('/favorite', favoriteController.upsert);
 router.get('/favorite', favoriteController.get);
+router.delete('/favorite/:userId/song/:song', favoriteController.deleteFavorite)
 
 module.exports = router;

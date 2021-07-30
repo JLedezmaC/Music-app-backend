@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 
 const favoriteService = {}
 
-async function findUser(idUser) {
+async function findUser(userId) {
     try {
-        const user = Favorite.findOne({ idUser: mongoose.Types.ObjectId(idUser) })
+        const user = Favorite.findOne({ userId: mongoose.Types.ObjectId(userId) })
         return user ? user : null;
 
     } catch (error) {
@@ -13,9 +13,9 @@ async function findUser(idUser) {
     }
 }
 
-async function createFavorite(idUser, songs) {
+async function createFavorite(userId, songs) {
     try {
-        const favorite = new Favorite({ idUser, songs })
+        const favorite = new Favorite({ userId, songs })
         const newFavorite = await favorite.save();
         return newFavorite;
     } catch (error) {
@@ -34,13 +34,13 @@ async function updateFavorite(user, songs) {
     }
 }
 
-favoriteService.upsertFavorite = async function ({ idUser, songs }) {
+favoriteService.upsertFavorite = async function ({ userId, songs }) {
     try {
-        const user = await findUser(idUser);
+        const user = await findUser(userId);
         if (user) {
             return await updateFavorite(user, songs);
         }
-        return await createFavorite(idUser, songs);
+        return await createFavorite(userId, songs);
 
     } catch (error) {
         throw new Error('Error while save Favorite')
@@ -56,5 +56,30 @@ favoriteService.getFavorite = async function ({ userId }) {
         throw new Error(error.message);
     }
 };
+
+async function deleteFavorite(user, song) {
+    try {
+        user.songs.pull(song);
+        user.save()
+        return user;
+    } catch (e) {
+        // Log Errors
+        console.log('Error Message', e.message)
+        throw Error('Error while delete Favorite Music')
+    }
+}
+
+favoriteService.delete = async function ({ userId, song }) {
+    try {
+        const user = await findUser(userId)
+        if (user) {
+            return deleteFavorite(user, song)
+        }
+    } catch (e) {
+        // Log Errors
+        console.log('Error Message', e.message)
+        throw Error('Error while save Favorite Music')
+    }
+}
 
 module.exports = favoriteService;
