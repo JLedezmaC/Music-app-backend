@@ -78,10 +78,12 @@ userService.LogUser = async function({email,password}){
 
 userService.removeUser = async function (data) {
     try {
-        const Userid = data.id;
+        const Userid = data._id;
         const userDeleted = await User.findByIdAndRemove(Userid);
         const message = 'User removed';
-        return message;
+        if(userDeleted){
+            return message;
+        }
     } catch (e) {
         console.log(e.message)
         throw new Error(error);
