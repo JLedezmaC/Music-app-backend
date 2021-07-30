@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const RecentSchema = mongoose.Schema({
-    idUser: {
+    userId: {
         type: Schema.Types.ObjectId,
         require: true
     },
