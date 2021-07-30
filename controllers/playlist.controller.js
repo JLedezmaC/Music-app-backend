@@ -1,5 +1,4 @@
 const playlistService = require('../services/playlist.service');
-const Song = require('../models/song.model');
 
 const playlistController = {};
 
