@@ -47,4 +47,13 @@ recentService.upsertRecent = async function ({ idUser, songs }) {
     }
 }
 
+recentService.getRecent = async function ({ userId }) {
+    try {
+        const recents = await Recent.findOne({ userId: new mongoose.Types.ObjectId(userId) }).populate('songs');
+        return recents;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
 module.exports = recentService;

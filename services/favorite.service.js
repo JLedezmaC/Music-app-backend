@@ -48,8 +48,9 @@ favoriteService.upsertFavorite = async function ({ idUser, songs }) {
 }
 
 favoriteService.getFavorite = async function ({ userId }) {
+    console.log(userId)
     try {
-        const favorite = await Favorite.find({ userId });
+        const favorite = await Favorite.findOne({ userId: new mongoose.Types.ObjectId(userId) }).populate('songs');
         return favorite;
     } catch (error) {
         throw new Error(error.message);

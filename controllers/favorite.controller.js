@@ -1,4 +1,5 @@
 const favoriteService = require('../services/favorite.service');
+const Song = require('../models/song.model');
 
 const FavoriteController = {}
 

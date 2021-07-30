@@ -10,8 +10,8 @@ const playlistSchema = new Schema({
         type: String,
         required: true,
     },
-    songs: [String]
-}, { versionKey: false });
+    songs: [{ type: Schema.Types.ObjectId, ref: 'Song' }],
+}, { versionKey: false, autoCreate: true });
 
 const Playlist = mongoose.model('Playlist', playlistSchema);
 module.exports = Playlist;
