@@ -85,7 +85,7 @@ userService.removeUser = async function (data) {
             return message;
         }
     } catch (e) {
-        console.log(e.message)
+        console.log(e.message);
         throw new Error(error);
     }
 };
