@@ -17,6 +17,7 @@ playlistService.createPlaylist = async function ({ userId, songs, name }) {
 
     try {
         const user = await findUser(userId);
+        console.log(user)
         if (user) {
             const playlist = new Playlist({ userId, songs, name });
             const newPlaylist = await playlist.save();
@@ -59,5 +60,30 @@ playlistService.removePlaylist = async function (data) {
         throw new Error(error);
     }
 };
+
+async function deleteSong(user, song) {
+    try {
+        user.songs.pull(song);
+        user.save()
+        return user;
+    } catch (e) {
+        // Log Errors
+        console.log('Error Message', e.message)
+        throw Error('Error while delete Favorite Music')
+    }
+}
+
+playlistService.delete = async function ({ userId, song }) {
+    try {
+        const user = await findUser(userId)
+        if (user) {
+            return deleteSong(user, song)
+        }
+    } catch (e) {
+        // Log Errors
+        console.log('Error Message', e.message)
+        throw Error('Error while save Favorite Music')
+    }
+}
 
 module.exports = playlistService;

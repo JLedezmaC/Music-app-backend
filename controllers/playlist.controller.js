@@ -39,4 +39,13 @@ playlistController.delete = async function (req, res, next) {
     }
 };
 
+playlistController.deleteSong = async function (req, res, next) {
+    try {
+        const favorite = await playlistService.delete(req.params)
+        return res.status(202).json({ status: 202, data: favorite, message: "Item removed successfully" });
+    } catch (e) {
+        return res.status(400).json({ status: 400, message: e.message });
+    }
+}
+
 module.exports = playlistController;

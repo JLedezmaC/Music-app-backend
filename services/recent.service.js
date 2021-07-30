@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 
 const recentService = {}
 
-async function findUser(idUser) {
+async function findUser(userId) {
     try {
-        const user = Recent.findOne({ idUser: mongoose.Types.ObjectId(idUser) })
+        const user = Recent.findOne({ userId: mongoose.Types.ObjectId(userId) })
         return user ? user : null;
 
     } catch (error) {
@@ -13,9 +13,9 @@ async function findUser(idUser) {
     }
 }
 
-async function createRecent(idUser, songs) {
+async function createRecent(userId, songs) {
     try {
-        const recent = new Recent({ idUser, songs })
+        const recent = new Recent({ userId, songs })
         const newRecent = await recent.save();
         return newRecent;
     } catch (error) {
@@ -34,13 +34,13 @@ async function updateRecent(user, songs) {
     }
 }
 
-recentService.upsertRecent = async function ({ idUser, songs }) {
+recentService.upsertRecent = async function ({ userId, songs }) {
     try {
-        const user = await findUser(idUser);
+        const user = await findUser(userId);
         if (user) {
             return await updateRecent(user, songs);
         }
-        return await createRecent(idUser, songs);
+        return await createRecent(userId, songs);
 
     } catch (error) {
         throw new Error('Error while save Favorite')
