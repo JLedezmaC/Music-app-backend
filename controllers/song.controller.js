@@ -1,5 +1,4 @@
 const songService = require('../services/song.service');
-const Song = require('../models/song.model');
 
 const songController = {};
 
