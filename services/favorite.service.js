@@ -25,7 +25,9 @@ async function createFavorite(userId, songs) {
 
 async function updateFavorite(user, songs) {
     try {
-        user.songs.push(songs.toString());
+        songs.forEach(songs => {
+            user.songs.push(songs.toString());
+        });
         await user.save();
         return user;
 
@@ -50,8 +52,8 @@ favoriteService.upsertFavorite = async function ({ userId, songs }) {
 favoriteService.getFavorite = async function ({ userId }) {
     console.log(userId)
     try {
-        const favorite = await Favorite.findOne({ userId: new mongoose.Types.ObjectId(userId) }).populate('songs');
-        return favorite;
+        const favorite = await Favorite.findOne({ userId: mongoose.Types.ObjectId(userId) });
+        return favorite.songs;
     } catch (error) {
         throw new Error(error.message);
     }
