@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const playlistSchema = new Schema({
     userId: {
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId, // trae el id creado por mongo 
         required: true,
     },
     name: {

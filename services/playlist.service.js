@@ -5,7 +5,7 @@ const playlistService = {};
 
 async function findUser(userId) {
     try {
-        const user = await Playlist.findOne({ userId: new mongoose.Types.ObjectId(userId) })
+        const user = await Playlist.findOne({ userId: mongoose.Types.ObjectId(userId) }) // lo que hace es que pasa el user id a un object id y luego se le pasa abajo y lo que hace es que cuando lo pases a mongo se va a mostrar como el object id porque se lo pasaste asi y en el model esta configurado asi 
         return user ? user : null;
 
     } catch (error) {
@@ -59,5 +59,29 @@ playlistService.removePlaylist = async function (data) {
         throw new Error(error);
     }
 };
+
+async function deleteSong(user, song) {
+    try {
+        user.songs.pull(song);
+        user.save()
+        return user;
+    } catch (e) {
+        console.log('Error Message', e.message)
+        throw Error('Error while delete Favorite Music')
+    }
+}
+
+playlistService.delete = async function ({ userId, song }) {
+    try {
+        const user = await findUser(userId)
+        if (user) {
+            return deleteSong(user, song)
+        }
+    } catch (e) {
+        // Log Errors
+        console.log('Error Message', e.message)
+        throw Error('Error while save Favorite Music')
+    }
+}
 
 module.exports = playlistService;
