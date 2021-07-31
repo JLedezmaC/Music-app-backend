@@ -6,7 +6,7 @@ const RecentSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         require: true
     },
-    songs: [{ type: Schema.Types.ObjectId, ref: 'Song' }],
+    songs: [{ type: String, required: true }],
 }, { versionKey: false, autoCreate: true });
 
 const Recent = mongoose.model('Recent', RecentSchema);

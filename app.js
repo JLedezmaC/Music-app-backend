@@ -6,8 +6,6 @@ const userRoute = require('./routes/user.route')
 const favoriteRoute = require('./routes/favorite.route');
 const recentRoute = require('./routes/recent.route');
 const playlistRoute = require('./routes/playlist.route');
-const songRoute = require('./routes/song.route');
-
 const app = express();
 
 const HOSTNAME = process.env.HOSTNAME || 'localHost'
@@ -28,7 +26,6 @@ app.use('/', userRoute);
 app.use('/', favoriteRoute);
 app.use('/', recentRoute);
 app.use('/', playlistRoute);
-app.use('/', songRoute);
 app.use('*', (req, res) => {
     res.status(404)
     res.send('Path cannot found')

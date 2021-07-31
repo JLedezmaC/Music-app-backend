@@ -25,7 +25,9 @@ async function createRecent(userId, songs) {
 
 async function updateRecent(user, songs) {
     try {
-        user.songs.unshift(songs.toString());
+        songs.forEach(songs => {
+            user.songs.unshift(songs.toString());
+        });
         await user.save();
         return user;
 
@@ -49,8 +51,8 @@ recentService.upsertRecent = async function ({ userId, songs }) {
 
 recentService.getRecent = async function ({ userId }) {
     try {
-        const recents = await Recent.findOne({ userId: new mongoose.Types.ObjectId(userId) }).populate('songs');
-        return recents;
+        const recent = await Recent.findOne({ userId: mongoose.Types.ObjectId(userId) });
+        return recent.songs;
     } catch (error) {
         throw new Error(error.message);
     }

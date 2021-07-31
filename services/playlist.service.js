@@ -5,7 +5,7 @@ const playlistService = {};
 
 async function findUser(userId) {
     try {
-        const user = await Playlist.findOne({ userId: new mongoose.Types.ObjectId(userId) })
+        const user = Playlist.findOne({ userId: mongoose.Types.ObjectId(userId) })
         return user ? user : null;
 
     } catch (error) {
@@ -13,16 +13,14 @@ async function findUser(userId) {
     }
 }
 
+
 playlistService.createPlaylist = async function ({ userId, songs, name }) {
 
     try {
-        const user = await findUser(userId);
-        console.log(user)
-        if (user) {
-            const playlist = new Playlist({ userId, songs, name });
-            const newPlaylist = await playlist.save();
-            return newPlaylist;
-        }
+        const playlist = new Playlist({ userId, songs, name });
+        const newPlaylist = await playlist.save();
+        return newPlaylist;
+
     } catch (error) {
         throw new Error(error);
     }
@@ -50,12 +48,10 @@ playlistService.updatePlaylist = async function (data) {
     }
 };
 
-playlistService.removePlaylist = async function (data) {
+playlistService.removePlaylist = async function ({ id }) {
     try {
-        const id = data.id;
         const playlist = await Playlist.findByIdAndRemove(id);
-        const message = 'Playlist remove';
-        return message;
+        return playlist;
     } catch (error) {
         throw new Error(error);
     }
@@ -67,7 +63,6 @@ async function deleteSong(user, song) {
         user.save()
         return user;
     } catch (e) {
-        // Log Errors
         console.log('Error Message', e.message)
         throw Error('Error while delete Favorite Music')
     }

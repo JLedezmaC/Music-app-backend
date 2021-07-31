@@ -32,7 +32,7 @@ playlistController.update = async function (req, res, next) {
 
 playlistController.delete = async function (req, res, next) {
     try {
-        const playlist = await playlistService.removePlaylist(req.body);
+        const playlist = await playlistService.removePlaylist(req.params);
         return res.status(201).json({ playlist });
     } catch (error) {
         return res.status(400).json({ message: error.message });
@@ -41,8 +41,8 @@ playlistController.delete = async function (req, res, next) {
 
 playlistController.deleteSong = async function (req, res, next) {
     try {
-        const favorite = await playlistService.delete(req.params)
-        return res.status(202).json({ status: 202, data: favorite, message: "Item removed successfully" });
+        const playlist = await playlistService.delete(req.params)
+        return res.status(202).json({ status: 202, data: playlist, message: "Item removed successfully" });
     } catch (e) {
         return res.status(400).json({ status: 400, message: e.message });
     }
