@@ -75,11 +75,16 @@ userService.updateUserName = async function ({ id }, { name }) {
 
 userService.LogUser = async function({email,password}){
     try{
-        const logedUser = await User.findOne({email,password:md5(password)})
+        const logedUser = await User.findOne({email})
+        const passwordHashed = md5(password);
         if(logedUser){
-            return logedUser;
+            if(passwordHashed === logedUser.password){
+                return logedUser;
+            }else{
+                return false;
+            }
         }else{
-            return 'User doesnt exist or the password is not the same'
+            return true;
         }
     }catch(e){
         console.log(e.message)
