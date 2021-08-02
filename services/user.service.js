@@ -28,8 +28,8 @@ userService.createUser = async function ({ name, email, password }) {
 
 userService.getUsers = async function () {
     try {
-        const users = await User.find({});
-        return users;
+        const users = await User.find({}); // Este tipo de objeto vacio lo que me hace es traerme todos los usuarios que existen 
+        return users;   // retornar todos los usuarios 
 
     } catch(e) {
         console.log(e.message)
@@ -37,11 +37,11 @@ userService.getUsers = async function () {
     }
 }
 
-userService.getUser = async function ({ id }) {
+userService.getUser = async function ({ id }) { // obtener usuario en especifico 
     try {
-        const user = await User.findById(id)
-        let getUser = JSON.parse(JSON.stringify(user))
-        delete getUser.password;
+        const user = await User.findById(id) // encuentre por medio del id el usuario 
+        let getUser = JSON.parse(JSON.stringify(user))  // el parse lo que me indica es que lea lo que tiene adentro como un objeto JS  y el stringyfy convierte el objeto JS en JSON
+        delete getUser.password; // gracias a el parse  podemos obtener el campo de password y eliminarlo esto para que no me retorne la contrasena 
         return  getUser
     } catch (e) {
         console.log(e.message)
@@ -49,42 +49,42 @@ userService.getUser = async function ({ id }) {
     }
 }
 
-userService.updateUser = async function ({ id }, { name, email, password }) {
+userService.updateUser = async function ({ id }, { name, email, password }) { // Se obtiene el id de la URL y lo demas del body 
     try {
-        const user = await User.findById(id);
-        const updateUser = await user.set({ name, email, password });
-        await updateUser.save();
-        return updateUser;
+        const user = await User.findById(id); // Se busca y se encuentra el usuario por medio del id 
+        const updateUser = await user.set({ name, email, password }); // Se le cambia a ese usuario el name ,email,password
+        await updateUser.save(); // Se guartda con los cambios 
+        return updateUser; // Se retorna 
     } catch (e) {
         console.log(e.message)
         throw new Error('Error while update user')
     }
 }
 
-userService.updateUserName = async function ({ id }, { name }) {
+userService.updateUserName = async function ({ id }, { name }) { // Se obtiene el id de la URL y lo demas del body 
     try {
-        const userid = await User.findById(id);
-        const updateNameUser = await userid.set({ name });
-        await updateNameUser.save();
-        return updateNameUser;
+        const userid = await User.findById(id); // Se busca el usuario con ese id 
+        const updateNameUser = await userid.set({ name }); // Se le cambia a ese usuario el name el metodo set hace que podamos hacerlo 
+        await updateNameUser.save(); // se guarda el usuario actualizado 
+        return updateNameUser; // se retorna el usuario actualizado 
     } catch (e) {
         console.log(e.message)
         throw new Error('Error while changing name of user')
     }
 }
 
-userService.LogUser = async function({email,password}){
+userService.LogUser = async function({email,password}){ // Se obtienen los datos 
     try{
-        const logedUser = await User.findOne({email})
-        const passwordHashed = md5(password);
-        if(logedUser){
-            if(passwordHashed === logedUser.password){
-                return logedUser;
+        const logedUser = await User.findOne({email}) // Se busca el usuario con ese email 
+        const passwordHashed = md5(password);  // Se encrypta la contrasena que estamos pasando 
+        if(logedUser){ // Si encuentra un usuario con ese correo 
+            if(passwordHashed === logedUser.password){ // Si la contrasena encryptada es igual a la contrasena que esta en la db
+                return logedUser; // retorne el usuario 
             }else{
-                return false;
+                return false; // retorne false (este ejecuta un mensaje  en el front end )
             }
         }else{
-            return true;
+            return true; // retorne true  (este ejecuta un mensaje  en el front end )
         }
     }catch(e){
         console.log(e.message)
@@ -92,11 +92,11 @@ userService.LogUser = async function({email,password}){
     }
 }
 
-userService.removeUser = async function (data) {
+userService.removeUser = async function (data) { // Eliminar usuario 
     try {
-        const Userid = data._id;
-        const userDeleted = await User.findByIdAndRemove(Userid);
-        const message = 'User removed';
+        const Userid = data._id;  // obtenemos el id de ese usuario
+        const userDeleted = await User.findByIdAndRemove(Userid); // Encontramos el id y lo removemos 
+        const message = 'User removed'; // se devuelve un mensaje confirmando que el usuario fue elimnado 
         return message;
     } catch (e) {
         console.log(e.message);
