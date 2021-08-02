@@ -3,12 +3,23 @@ const md5 = require('md5');
 
 const userService = {};
 
+async function verificate(email) {
+    const actualEmail = await User.findOne({ email });
+    if (actualEmail) {
+        return true;
+    }
+}
+
 userService.createUser = async function ({ name, email, password }) {
     try {
-        const user = new User({ name, email, password: md5(password) });
-        const newUser = await user.save();
-        return newUser;
-
+        const emailVerification = await verificate(email);
+        if (!emailVerification) {
+            const user = new User({ name, email, password: md5(password) });
+            const newUser = await user.save();
+            return newUser;
+        } else {
+            return emailVerification;
+        }
     } catch (e) {
         console.log(e.message)
         throw new Error('Error while save user')
@@ -64,11 +75,16 @@ userService.updateUserName = async function ({ id }, { name }) {
 
 userService.LogUser = async function ({ email, password }) {
     try {
-        const logedUser = await User.findOne({ email, password: md5(password) })
+        const logedUser = await User.findOne({ email })
+        const passwordHashed = md5(password);
         if (logedUser) {
-            return logedUser;
+            if (passwordHashed === logedUser.password) {
+                return logedUser;
+            } else {
+                return false;
+            }
         } else {
-            return 'User doesnt exist or the password is not the same'
+            return true;
         }
     } catch (e) {
         console.log(e.message)
@@ -81,9 +97,7 @@ userService.removeUser = async function (data) {
         const Userid = data._id;
         const userDeleted = await User.findByIdAndRemove(Userid);
         const message = 'User removed';
-        if (userDeleted) {
-            return message;
-        }
+        return message;
     } catch (e) {
         console.log(e.message);
         throw new Error(error);
