@@ -24,9 +24,19 @@ playlistService.getPlaylist = async function ({ userId }) {
     }
 };
 
+playlistService.getPlaylistId = async function ({ id }) {
+    try {
+        const playlist = await Playlist.findById(id);
+        return playlist;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
 playlistService.updatePlaylist = async function ({ id, name, songs }) {
     try {
         const playlist = await Playlist.findById(id);
+        const oneSong = songs;
         if (name) playlist.name = name;
         if (songs) playlist.songs.push(songs.toString());
         await playlist.save();
