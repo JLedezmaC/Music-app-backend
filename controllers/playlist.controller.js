@@ -21,6 +21,15 @@ playlistController.getPlaylist = async function (req, res, next) {
     }
 };
 
+playlistController.getPlaylistId = async function (req, res, next) {
+    try {
+        const playlist = await playlistService.getPlaylistId(req.params);
+        return res.status(200).json({ playlist });
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+};
+
 playlistController.update = async function (req, res, next) {
     try {
         const playlist = await playlistService.updatePlaylist(req.body);
