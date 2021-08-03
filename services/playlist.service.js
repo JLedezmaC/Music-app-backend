@@ -3,17 +3,6 @@ const mongoose = require('mongoose');
 
 const playlistService = {};
 
-async function findUser(userId) {
-    try {
-        const user = Playlist.findOne({ userId: mongoose.Types.ObjectId(userId) })
-        return user ? user : null;
-
-    } catch (error) {
-        throw new Error(error)
-    }
-}
-
-
 playlistService.createPlaylist = async function ({ userId, songs, name }) {
 
     try {
@@ -35,15 +24,15 @@ playlistService.getPlaylist = async function ({ userId }) {
     }
 };
 
-playlistService.updatePlaylist = async function (data) {
+playlistService.updatePlaylist = async function ({ id, name, songs }) {
     try {
-        const id = data.id;
         const playlist = await Playlist.findById(id);
-        if (data.name) playlist.name = data.name;
-        if (data.songs) playlist.songs = data.songs;
+        if (name) playlist.name = name;
+        if (songs) playlist.songs.push(songs.toString());
         await playlist.save();
         return playlist;
-    } catch (error) {
+    }
+    catch (error) {
         throw new Error(error);
     }
 };
@@ -57,28 +46,17 @@ playlistService.removePlaylist = async function ({ id }) {
     }
 };
 
-async function deleteSong(user, song) {
+playlistService.delete = async function ({ id, song }) {
     try {
-        user.songs.pull(song);
-        user.save()
-        return user;
-    } catch (e) {
-        console.log('Error Message', e.message)
-        throw Error('Error while delete Favorite Music')
+        const playlist = await Playlist.findById(id);
+        playlist.songs.pull(song);
+        playlist.save();
+        return playlist;
+    } catch (error) {
+        console.log('Error Message', error.message)
+        throw Error(error)
     }
 }
 
-playlistService.delete = async function ({ userId, song }) {
-    try {
-        const user = await findUser(userId)
-        if (user) {
-            return deleteSong(user, song)
-        }
-    } catch (e) {
-        // Log Errors
-        console.log('Error Message', e.message)
-        throw Error('Error while save Favorite Music')
-    }
-}
 
 module.exports = playlistService;
